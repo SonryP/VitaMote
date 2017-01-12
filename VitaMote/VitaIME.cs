@@ -18,9 +18,9 @@ using System.Net.Sockets;
 using System.IO;
 
 namespace VitaMote {
-    [Service (Label = "VitaIME", Permission = "android.permission.BIND_INPUT_METHOD")]
-    [MetaData (name:"android.view.im",Resource = "@xml/method")]
-    [IntentFilter(new[] { "android.view.InputMethod" })]
+    [Service(Label = "VitaIME", Permission = "android.permission.BIND_INPUT_METHOD")]
+    [MetaData(name: "android.view.im", Resource = "@xml/method")]
+    [IntentFilter(new [] { "android.view.InputMethod" })]
     class VitaIME : InputMethodService, IOnKeyboardActionListener {
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         int btn = 0;
@@ -54,12 +54,29 @@ namespace VitaMote {
         bool P_btnR = false;
         bool P_btnSel = false;
         bool P_btnSta = false;
+        //Keys
+        //DPAD
+        Android.Views.Keycode bUp = Android.Views.Keycode.DpadUp;
+        Android.Views.Keycode bDo = Android.Views.Keycode.DpadDown;
+        Android.Views.Keycode bLe = Android.Views.Keycode.DpadLeft;
+        Android.Views.Keycode bRi = Android.Views.Keycode.DpadRight;
+        //L-R Triggers
+        Android.Views.Keycode bLt = Android.Views.Keycode.ButtonL1;
+        Android.Views.Keycode bRt = Android.Views.Keycode.ButtonR1;
+        //XCTS
+        Android.Views.Keycode bX = Android.Views.Keycode.ButtonA;
+        Android.Views.Keycode bC = Android.Views.Keycode.ButtonB;
+        Android.Views.Keycode bT = Android.Views.Keycode.ButtonY;
+        Android.Views.Keycode bS = Android.Views.Keycode.ButtonX;
+        //SEL-STA
+        Android.Views.Keycode bSe = Android.Views.Keycode.DpadCenter;
+        Android.Views.Keycode bSt = Android.Views.Keycode.Back;
 
         bool timer = false;
         Android.Views.Keycode preBtnX = Android.Views.Keycode.A;
         Android.Views.Keycode preBtnY = Android.Views.Keycode.A;
 
-        public void OnKey([GeneratedEnum] Android.Views.Keycode primaryCode, [GeneratedEnum] Android.Views.Keycode[] keyCodes) {
+        public void OnKey([GeneratedEnum] Android.Views.Keycode primaryCode, [GeneratedEnum] Android.Views.Keycode [] keyCodes) {
             IInputConnection ic = CurrentInputConnection;
             switch ((int)primaryCode) {
                 case (int)Android.Views.Keycode.Del:
@@ -67,7 +84,7 @@ namespace VitaMote {
                     ic.DeleteSurroundingText(1, 0);
                     break;
                 case -1:
-                    caps=!caps;
+                    caps = !caps;
                     keyboard.SetShifted(caps);
                     kv.InvalidateAllKeys();
                     break;
@@ -75,39 +92,39 @@ namespace VitaMote {
                     ic.SendKeyEvent(new KeyEvent(KeyEventActions.Down, Android.Views.Keycode.Enter));
                     break;
                 case (int)Android.Views.Keycode.Button9:
-                    try{
+                    try {
                         onREC();
                     }
-                    catch(System.Exception ex) {
+                    catch (System.Exception ex) {
                         Toast.MakeText(this, "PSVITA Connected", ToastLength.Long).Show();
                     }
-                    
+
                     break;
                 default:
                     char code = (char)primaryCode;
-                    if (Character.IsLetter(code)&&caps) {
-                        code=Character.ToUpperCase(code);
+                    if (Character.IsLetter(code) && caps) {
+                        code = Character.ToUpperCase(code);
                     }
                     ic.CommitText(Java.Lang.String.ValueOf(code), 1);
                     break;
             }
         }
-
+        //This part of the code are useless, but there is no form to continue without this part of the code
         public void OnPress([GeneratedEnum] Android.Views.Keycode primaryCode) {
             //OnKey(primaryCode);
             //throw new NotImplementedException();
         }
 
         public void OnRelease([GeneratedEnum] Android.Views.Keycode primaryCode) {
-           // throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         public void OnText(ICharSequence text) {
-          //  throw new NotImplementedException();
+            //  throw new NotImplementedException();
         }
 
         public void SwipeDown() {
-         //   throw new NotImplementedException();
+            //   throw new NotImplementedException();
         }
 
         public void SwipeLeft() {
@@ -119,52 +136,51 @@ namespace VitaMote {
         }
 
         public void SwipeUp() {
-          //  throw new NotImplementedException();
+            //  throw new NotImplementedException();
         }
         public override void OnCreate() {
             base.OnCreate();
             string ip = "0";
-            timer=true;
+            timer = true;
             Java.IO.File sdCard = Android.OS.Environment.ExternalStorageDirectory;
-            Java.IO.File dir = new Java.IO.File(sdCard.AbsolutePath+"/SonryVitaMote");
+            Java.IO.File dir = new Java.IO.File(sdCard.AbsolutePath + "/SonryVitaMote");
             Java.IO.File file = new Java.IO.File(dir, "ip.scf");
             Java.IO.FileReader fread = new Java.IO.FileReader(file);
             Java.IO.BufferedReader br = new Java.IO.BufferedReader(fread);
-            ip=br.ReadLine();
-            fread.Close();
-            try{
-                clientSocket.Connect(ip, 5000);
-                if (clientSocket.Connected) {
-                    Toast.MakeText(this, "PS VITA Connected", ToastLength.Long).Show();
-                    RunUpdateLoop();
-                }else {
-                    Toast.MakeText(this, "Couldn't connect", ToastLength.Long).Show();
-                }
-               
-            }
-            catch(System.Exception ex) {
-                Toast.MakeText(this, "Network Error, try again", ToastLength.Long).Show();
-            }
-            
-            
-        }
-        public void onREC() {
-            string ip = "0";
-            timer=true;
-            Java.IO.File sdCard = Android.OS.Environment.ExternalStorageDirectory;
-            Java.IO.File dir = new Java.IO.File(sdCard.AbsolutePath+"/SonryVitaMote");
-            Java.IO.File file = new Java.IO.File(dir, "ip.scf");
-            Java.IO.FileReader fread = new Java.IO.FileReader(file);
-            Java.IO.BufferedReader br = new Java.IO.BufferedReader(fread);
-            ip=br.ReadLine();
+            ip = br.ReadLine();
             fread.Close();
             try {
                 clientSocket.Connect(ip, 5000);
                 if (clientSocket.Connected) {
                     Toast.MakeText(this, "PS VITA Connected", ToastLength.Long).Show();
                     RunUpdateLoop();
+                } else {
+                    Toast.MakeText(this, "Couldn't connect", ToastLength.Long).Show();
                 }
-                else {
+
+            }
+            catch (System.Exception ex) {
+                Toast.MakeText(this, "Network Error, try again", ToastLength.Long).Show();
+            }
+
+
+        }
+        public void onREC() {
+            string ip = "0";
+            timer = true;
+            Java.IO.File sdCard = Android.OS.Environment.ExternalStorageDirectory;
+            Java.IO.File dir = new Java.IO.File(sdCard.AbsolutePath + "/SonryVitaMote");
+            Java.IO.File file = new Java.IO.File(dir, "ip.scf");
+            Java.IO.FileReader fread = new Java.IO.FileReader(file);
+            Java.IO.BufferedReader br = new Java.IO.BufferedReader(fread);
+            ip = br.ReadLine();
+            fread.Close();
+            try {
+                clientSocket.Connect(ip, 5000);
+                if (clientSocket.Connected) {
+                    Toast.MakeText(this, "PS VITA Connected", ToastLength.Long).Show();
+                    RunUpdateLoop();
+                } else {
                     Toast.MakeText(this, "Couldn't Connect", ToastLength.Long).Show();
                 }
 
@@ -178,10 +194,10 @@ namespace VitaMote {
 
         }
         public override View OnCreateInputView() {
-            kv=(KeyboardView)LayoutInflater.Inflate(Resource.Layout.keyboard, null);
-            keyboard=new Keyboard(this, Resource.Xml.qwerty);
-            kv.Keyboard=keyboard;
-            kv.OnKeyboardActionListener=this;
+            kv = (KeyboardView)LayoutInflater.Inflate(Resource.Layout.keyboard, null);
+            keyboard = new Keyboard(this, Resource.Xml.qwerty);
+            kv.Keyboard = keyboard;
+            kv.OnKeyboardActionListener = this;
             return kv;
         }
 
@@ -192,17 +208,18 @@ namespace VitaMote {
             while (timer) {
                 try {
                     await Task.Delay(100);
-                    byte[] outStream = System.Text.Encoding.ASCII.GetBytes("request");
+                    byte [] outStream = System.Text.Encoding.ASCII.GetBytes("request");
                     serverStream.Write(outStream, 0, outStream.Length);
                     serverStream.Flush();
 
-                    byte[] inStream = new byte[clientSocket.ReceiveBufferSize];
+                    byte [] inStream = new byte [clientSocket.ReceiveBufferSize];
                     serverStream.Read(inStream, 0, (int)clientSocket.ReceiveBufferSize);
-                    btn=BitConverter.ToInt32(inStream, 0);
+                    btn = BitConverter.ToInt32(inStream, 0);
                     fakeKeyboard(btn);
-                }catch(System.Exception ex) {
+                }
+                catch (System.Exception ex) {
                     Toast.MakeText(this, "PSVITA Disconnected", ToastLength.Long).Show();
-                    timer=false;
+                    timer = false;
                 }
             }
         }
@@ -212,233 +229,233 @@ namespace VitaMote {
             long eventTime = JavaSystem.CurrentTimeMillis();
             switch (keyCode) {
                 case btnDpadU:
-                    sEventK(Android.Views.Keycode.DpadUp);
-                    P_btnDpadU=true;
+                    sEventK(bUp);
+                    P_btnDpadU = true;
                     break;
                 case btnDpadR:
-                    sEventK(Android.Views.Keycode.DpadRight);
-                    P_btnDpadR=true;
+                    sEventK(bRi);
+                    P_btnDpadR = true;
                     break;
                 case btnDpadD:
-                    sEventK(Android.Views.Keycode.DpadDown);
-                    P_btnDpadD=true;
+                    sEventK(bDo);
+                    P_btnDpadD = true;
                     break;
                 case btnDpadL:
-                    sEventK(Android.Views.Keycode.DpadLeft);
-                    P_btnDpadL=true;
+                    sEventK(bLe);
+                    P_btnDpadL = true;
                     break;
                 case btnL:
-                    sEventK(Android.Views.Keycode.L);
-                    P_btnL=true;
+                    sEventK(bLt);
+                    P_btnL = true;
                     break;
                 case btnR:
-                    sEventK(Android.Views.Keycode.R);
-                    P_btnR=true;
+                    sEventK(bRt);
+                    P_btnR = true;
                     break;
                 case btnX:
-                    sEventK(Android.Views.Keycode.X);
-                    P_btnX=true;
+                    sEventK(bX);
+                    P_btnX = true;
                     break;
                 case btnC:
-                    sEventK(Android.Views.Keycode.C);
-                    P_btnC=true;
+                    sEventK(bC);
+                    P_btnC = true;
                     break;
                 case btnT:
-                    sEventK(Android.Views.Keycode.T);
-                    P_btnT=true;
+                    sEventK(bT);
+                    P_btnT = true;
                     break;
                 case btnS:
-                    sEventK(Android.Views.Keycode.S);
-                    P_btnS=true;
+                    sEventK(bS);
+                    P_btnS = true;
                     break;
                 case btnSel:
-                    sEventK(Android.Views.Keycode.DpadCenter);
-                    P_btnSel=true;
+                    sEventK(bSe);
+                    P_btnSel = true;
                     break;
                 case btnSta:
-                    sEventK(Android.Views.Keycode.Back);
-                    P_btnSta=true;
+                    sEventK(bSt);
+                    P_btnSta = true;
                     break;
-                case btnDpadU+btnX:
-                    sEventK(Android.Views.Keycode.DpadUp,Android.Views.Keycode.X);
-                    P_btnDpadU=true;
-                    P_btnX=true;
+                case btnDpadU + btnX:
+                    sEventK(bUp, bX);
+                    P_btnDpadU = true;
+                    P_btnX = true;
                     break;
-                case btnDpadU+btnC:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.C);
-                    P_btnDpadU=true;
-                    P_btnC=true;
+                case btnDpadU + btnC:
+                    sEventK(bUp, bC);
+                    P_btnDpadU = true;
+                    P_btnC = true;
                     break;
-                case btnDpadU+btnT:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.T);
-                    P_btnDpadU=true;
-                    P_btnT=true;
+                case btnDpadU + btnT:
+                    sEventK(bUp, bT);
+                    P_btnDpadU = true;
+                    P_btnT = true;
                     break;
-                case btnDpadU+btnS:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.S);
-                    P_btnDpadU=true;
-                    P_btnS=true;
+                case btnDpadU + btnS:
+                    sEventK(bUp, bS);
+                    P_btnDpadU = true;
+                    P_btnS = true;
                     break;
-                case btnDpadU+btnL:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.L);
-                    P_btnDpadU=true;
-                    P_btnL=true;
+                case btnDpadU + btnL:
+                    sEventK(bUp, bLt);
+                    P_btnDpadU = true;
+                    P_btnL = true;
                     break;
-                case btnDpadU+btnR:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.R);
-                    P_btnDpadU=true;
-                    P_btnR=true;
+                case btnDpadU + btnR:
+                    sEventK(bUp, bRt);
+                    P_btnDpadU = true;
+                    P_btnR = true;
                     break;
-                case btnDpadU+btnSel:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.DpadCenter);
-                    P_btnDpadU=true;
-                    P_btnSel=true;
+                case btnDpadU + btnSel:
+                    sEventK(bUp, bSe);
+                    P_btnDpadU = true;
+                    P_btnSel = true;
                     break;
-                case btnDpadU+btnSta:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.Escape);
-                    P_btnDpadU=true;
-                    P_btnSta=true;
+                case btnDpadU + btnSta:
+                    sEventK(bUp, bSt);
+                    P_btnDpadU = true;
+                    P_btnSta = true;
                     break;
-                case btnDpadR+btnX:
-                    sEventK(Android.Views.Keycode.DpadRight, Android.Views.Keycode.X);
-                    P_btnDpadR=true;
-                    P_btnX=true;
+                case btnDpadR + btnX:
+                    sEventK(bRi, bX);
+                    P_btnDpadR = true;
+                    P_btnX = true;
                     break;
-                case btnDpadR+btnC:
-                    sEventK(Android.Views.Keycode.DpadRight, Android.Views.Keycode.C);
-                    P_btnDpadR=true;
-                    P_btnC=true;
+                case btnDpadR + btnC:
+                    sEventK(bRi, bC);
+                    P_btnDpadR = true;
+                    P_btnC = true;
                     break;
-                case btnDpadR+btnT:
-                    sEventK(Android.Views.Keycode.DpadRight, Android.Views.Keycode.T);
-                    P_btnDpadR=true;
-                    P_btnC=true;
+                case btnDpadR + btnT:
+                    sEventK(bRi, bT);
+                    P_btnDpadR = true;
+                    P_btnC = true;
                     break;
-                case btnDpadR+btnS:
-                    sEventK(Android.Views.Keycode.DpadRight, Android.Views.Keycode.S);
-                    P_btnDpadR=true;
-                    P_btnS=true;
+                case btnDpadR + btnS:
+                    sEventK(bRi, bS);
+                    P_btnDpadR = true;
+                    P_btnS = true;
                     break;
-                case btnDpadR+btnL:
-                    sEventK(Android.Views.Keycode.DpadRight, Android.Views.Keycode.L);
-                    P_btnDpadR=true;
-                    P_btnL=true;
+                case btnDpadR + btnL:
+                    sEventK(bRi, bLt);
+                    P_btnDpadR = true;
+                    P_btnL = true;
                     break;
-                case btnDpadR+btnR:
-                    sEventK(Android.Views.Keycode.DpadRight, Android.Views.Keycode.R);
-                    P_btnDpadR=true;
-                    P_btnX=true;
+                case btnDpadR + btnR:
+                    sEventK(bRi, bRt);
+                    P_btnDpadR = true;
+                    P_btnX = true;
                     break;
-                case btnDpadR+btnSel:
-                    sEventK(Android.Views.Keycode.DpadRight, Android.Views.Keycode.DpadCenter);
-                    P_btnDpadR=true;
-                    P_btnSel=true;
+                case btnDpadR + btnSel:
+                    sEventK(bRi, bSe);
+                    P_btnDpadR = true;
+                    P_btnSel = true;
                     break;
-                case btnDpadR+btnSta:
-                    sEventK(Android.Views.Keycode.DpadRight, Android.Views.Keycode.Escape);
-                    P_btnDpadR=true;
-                    P_btnSta=true;
+                case btnDpadR + btnSta:
+                    sEventK(bRi, bSt);
+                    P_btnDpadR = true;
+                    P_btnSta = true;
                     break;
-                case btnDpadD+btnX:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.X);
-                    P_btnDpadD=true;
-                    P_btnX=true;
+                case btnDpadD + btnX:
+                    sEventK(bDo, bX);
+                    P_btnDpadD = true;
+                    P_btnX = true;
                     break;
-                case btnDpadD+btnC:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.C);
-                    P_btnDpadD=true;
-                    P_btnC=true;
+                case btnDpadD + btnC:
+                    sEventK(bDo, bC);
+                    P_btnDpadD = true;
+                    P_btnC = true;
                     break;
-                case btnDpadD+btnT:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.T);
-                    P_btnDpadD=true;
-                    P_btnT=true;
+                case btnDpadD + btnT:
+                    sEventK(bDo, bT);
+                    P_btnDpadD = true;
+                    P_btnT = true;
                     break;
-                case btnDpadD+btnS:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.S);
-                    P_btnDpadD=true;
-                    P_btnT=true;
+                case btnDpadD + btnS:
+                    sEventK(bDo, bS);
+                    P_btnDpadD = true;
+                    P_btnT = true;
                     break;
-                case btnDpadD+btnL:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.L);
-                    P_btnDpadD=true;
-                    P_btnL=true;
+                case btnDpadD + btnL:
+                    sEventK(bDo, bLt);
+                    P_btnDpadD = true;
+                    P_btnL = true;
                     break;
-                case btnDpadD+btnR:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.R);
-                    P_btnDpadD=true;
-                    P_btnR=true;
+                case btnDpadD + btnR:
+                    sEventK(bDo, bRt);
+                    P_btnDpadD = true;
+                    P_btnR = true;
                     break;
-                case btnDpadD+btnSel:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.DpadCenter);
-                    P_btnDpadD=true;
-                    P_btnSel=true;
+                case btnDpadD + btnSel:
+                    sEventK(bDo, bSe);
+                    P_btnDpadD = true;
+                    P_btnSel = true;
                     break;
-                case btnDpadD+btnSta:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.Escape);
-                    P_btnDpadD=true;
-                    P_btnSta=true;
+                case btnDpadD + btnSta:
+                    sEventK(bDo, bSt);
+                    P_btnDpadD = true;
+                    P_btnSta = true;
                     break;
-                case btnDpadL+btnX:
-                    sEventK(Android.Views.Keycode.DpadLeft, Android.Views.Keycode.X);
-                    P_btnDpadL=true;
-                    P_btnX=true;
+                case btnDpadL + btnX:
+                    sEventK(bLe, bX);
+                    P_btnDpadL = true;
+                    P_btnX = true;
                     break;
-                case btnDpadL+btnC:
-                    sEventK(Android.Views.Keycode.DpadLeft, Android.Views.Keycode.C);
-                    P_btnDpadL=true;
-                    P_btnC=true;
+                case btnDpadL + btnC:
+                    sEventK(bLe, bC);
+                    P_btnDpadL = true;
+                    P_btnC = true;
                     break;
-                case btnDpadL+btnT:
-                    sEventK(Android.Views.Keycode.DpadLeft, Android.Views.Keycode.T);
-                    P_btnDpadL=true;
-                    P_btnT=true;
+                case btnDpadL + btnT:
+                    sEventK(bLe, bT);
+                    P_btnDpadL = true;
+                    P_btnT = true;
                     break;
-                case btnDpadL+btnS:
-                    sEventK(Android.Views.Keycode.DpadLeft, Android.Views.Keycode.S);
-                    P_btnDpadL=true;
-                    P_btnS=true;
+                case btnDpadL + btnS:
+                    sEventK(bLe, bS);
+                    P_btnDpadL = true;
+                    P_btnS = true;
                     break;
-                case btnDpadL+btnL:
-                    sEventK(Android.Views.Keycode.DpadLeft, Android.Views.Keycode.L);
-                    P_btnDpadL=true;
-                    P_btnL=true;
+                case btnDpadL + btnL:
+                    sEventK(bLe, bLt);
+                    P_btnDpadL = true;
+                    P_btnL = true;
                     break;
-                case btnDpadL+btnR:
-                    sEventK(Android.Views.Keycode.DpadLeft, Android.Views.Keycode.R);
-                    P_btnDpadL=true;
-                    P_btnR=true;
+                case btnDpadL + btnR:
+                    sEventK(bLe, bRt);
+                    P_btnDpadL = true;
+                    P_btnR = true;
                     break;
-                case btnDpadL+btnSel:
-                    sEventK(Android.Views.Keycode.DpadLeft, Android.Views.Keycode.DpadCenter);
-                    P_btnDpadL=true;
-                    P_btnSel=true;
+                case btnDpadL + btnSel:
+                    sEventK(bLe, bSe);
+                    P_btnDpadL = true;
+                    P_btnSel = true;
                     break;
-                case btnDpadL+btnSta:
-                    sEventK(Android.Views.Keycode.DpadLeft, Android.Views.Keycode.Escape);
-                    P_btnDpadL=true;
-                    P_btnSta=true;
+                case btnDpadL + btnSta:
+                    sEventK(bLe, bSt);
+                    P_btnDpadL = true;
+                    P_btnSta = true;
                     break;
                 //Extras
-                case btnDpadU+btnDpadL:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.DpadLeft);
-                    P_btnDpadU=true;
-                    P_btnDpadL=true;
+                case btnDpadU + btnDpadL:
+                    sEventK(bUp, bLe);
+                    P_btnDpadU = true;
+                    P_btnDpadL = true;
                     break;
-                case btnDpadU+btnDpadR:
-                    sEventK(Android.Views.Keycode.DpadUp, Android.Views.Keycode.DpadRight);
-                    P_btnDpadU=true;
-                    P_btnDpadR=true;
+                case btnDpadU + btnDpadR:
+                    sEventK(bUp, bRi);
+                    P_btnDpadU = true;
+                    P_btnDpadR = true;
                     break;
-                case btnDpadD+btnDpadL:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.DpadLeft);
-                    P_btnDpadD=true;
-                    P_btnDpadL=true;
+                case btnDpadD + btnDpadL:
+                    sEventK(bDo, bLe);
+                    P_btnDpadD = true;
+                    P_btnDpadL = true;
                     break;
-                case btnDpadD+btnDpadR:
-                    sEventK(Android.Views.Keycode.DpadDown, Android.Views.Keycode.DpadRight);
-                    P_btnDpadD=true;
-                    P_btnDpadR=true;
+                case btnDpadD + btnDpadR:
+                    sEventK(bDo, bRi);
+                    P_btnDpadD = true;
+                    P_btnDpadR = true;
                     break;
                 default:
                     upEventK();
@@ -446,82 +463,82 @@ namespace VitaMote {
             }
 
         }
-        
+
         private void upEventK() {
-            ic=CurrentInputConnection;
-            if (P_btnDpadU==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.DpadUp);
+            ic = CurrentInputConnection;
+            if (P_btnDpadU == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bUp);
                 ic.SendKeyEvent(ks);
-                P_btnDpadU=false;
+                P_btnDpadU = false;
             }
-            if (P_btnDpadR==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.DpadRight);
+            if (P_btnDpadR == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bRi);
                 ic.SendKeyEvent(ks);
-                P_btnDpadR=false;
+                P_btnDpadR = false;
             }
-            if (P_btnDpadD==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.DpadDown);
+            if (P_btnDpadD == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bDo);
                 ic.SendKeyEvent(ks);
-                P_btnDpadD=false;
+                P_btnDpadD = false;
             }
-            if (P_btnDpadL==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.DpadLeft);
+            if (P_btnDpadL == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bLe);
                 ic.SendKeyEvent(ks);
-                P_btnDpadL=false;
+                P_btnDpadL = false;
             }
-            if (P_btnX==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.X);
+            if (P_btnX == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bX);
                 ic.SendKeyEvent(ks);
-                P_btnX=false;
+                P_btnX = false;
             }
-            if (P_btnT==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.T);
+            if (P_btnT == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bT);
                 ic.SendKeyEvent(ks);
-                P_btnT=false;
+                P_btnT = false;
             }
-            if (P_btnC==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.C);
+            if (P_btnC == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bC);
                 ic.SendKeyEvent(ks);
-                P_btnC=false;
+                P_btnC = false;
             }
-            if (P_btnS==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.S);
+            if (P_btnS == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bS);
                 ic.SendKeyEvent(ks);
-                P_btnS=false;
+                P_btnS = false;
             }
-            if (P_btnL==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.L);
+            if (P_btnL == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bLt);
                 ic.SendKeyEvent(ks);
-                P_btnL=false;
+                P_btnL = false;
             }
-            if (P_btnR==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.R);
+            if (P_btnR == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bRt);
                 ic.SendKeyEvent(ks);
-                P_btnR=false;
+                P_btnR = false;
             }
-            if (P_btnSel==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.DpadCenter);
+            if (P_btnSel == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bSe);
                 ic.SendKeyEvent(ks);
-                P_btnSel=false;
+                P_btnSel = false;
             }
-            if (P_btnSta==true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, Android.Views.Keycode.Escape);
+            if (P_btnSta == true) {
+                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bSt);
                 ic.SendKeyEvent(ks);
-                P_btnSta=false;
+                P_btnSta = false;
             }
         }
         private void sEventK(Android.Views.Keycode kc) {
-            co=1;
-            preBtnX=kc;
-            ic=CurrentInputConnection;
+            co = 1;
+            preBtnX = kc;
+            ic = CurrentInputConnection;
             long eventTime = JavaSystem.CurrentTimeMillis();
             KeyEvent ks = new KeyEvent(KeyEventActions.Down, kc);
             ic.SendKeyEvent(ks);
         }
         private void sEventK(Android.Views.Keycode kc, Android.Views.Keycode kd) {
-            co=3;
-            preBtnX=kc;
-            preBtnY=kd;
+            co = 3;
+            preBtnX = kc;
+            preBtnY = kd;
             ic = CurrentInputConnection;
             long eventTime = JavaSystem.CurrentTimeMillis();
             KeyEvent kx = new KeyEvent(KeyEventActions.Down, kc);

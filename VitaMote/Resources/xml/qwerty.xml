@@ -40,11 +40,11 @@
     <Key android:codes="107" android:keyLabel="k"/>
     <Key android:codes="108" android:keyLabel="l"/>
     
-    <Key android:codes="35,64" android:keyLabel="\# \@" android:keyEdgeFlags="right"/>
+    <Key android:codes="35" android:keyLabel="\#" android:keyEdgeFlags="right"/>
   </Row>
   <Row>
     <Key android:codes="-1" android:keyLabel="Caps" 
-                android:keyWidth="15%p" android:isModifier="true"
+                android:keyWidth="20%p" android:isModifier="true"
                 android:isSticky="true" android:keyEdgeFlags="left"/>
     <Key android:codes="122" android:keyLabel="z"/>
     <Key android:codes="120" android:keyLabel="x"/>
@@ -53,14 +53,14 @@
     <Key android:codes="98" android:keyLabel="b"/>
     <Key android:codes="110" android:keyLabel="n"/>
     <Key android:codes="109" android:keyLabel="m"/>
-    <Key android:codes="67" android:keyLabel="DEL" android:keyWidth="20%p" android:isRepeatable="true"/>
+    <Key android:codes="67" android:keyLabel="DEL" android:keyWidth="20%p" android:isRepeatable="true" android:keyEdgeFlags="right"/>
     
   </Row>
   <Row android:rowEdgeFlags="bottom">
     <Key android:codes="196" android:keyLabel="PSVITA" android:keyWidth="20%p"  android:keyEdgeFlags="left"/>
     <Key android:codes="46" android:keyLabel="."/>
-    <Key android:codes="32" android:keyLabel="SPACE" android:keyWidth="40%p" android:isRepeatable="true"/>
-    <Key android:codes="63,33,58" android:keyLabel="\? ! :"/>
+    <Key android:codes="32" android:keyLabel="SPACE" android:keyWidth="50%p" android:isRepeatable="true"/>
+    <Key android:codes="63,33,58" android:keyWidth="15%p" android:keyLabel="\? ! :"/>
     <Key android:codes="66" android:keyLabel="DONE" android:keyWidth="20%p" android:keyEdgeFlags="right"/>
   </Row>
 </Keyboard>
