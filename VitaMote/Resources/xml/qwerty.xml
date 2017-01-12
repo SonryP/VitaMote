@@ -42,7 +42,7 @@
     <Key android:codes="35,64" android:keyLabel="\# \@" android:keyEdgeFlags="right"/>
   </Row>
   <Row>
-    <Key android:codes="115" android:keyLabel="CAPS" android:keyEdgeFlags="left"/>
+    <Key android:codes="-1" android:keyLabel="CAPS" android:keyEdgeFlags="left"/>
     <Key android:codes="122" android:keyLabel="z"/>
     <Key android:codes="120" android:keyLabel="x"/>
     <Key android:codes="99" android:keyLabel="c"/>
