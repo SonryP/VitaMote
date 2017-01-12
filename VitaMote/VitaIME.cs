@@ -54,7 +54,7 @@ namespace VitaMote {
         bool P_btnR = false;
         bool P_btnSel = false;
         bool P_btnSta = false;
-        //Keys
+        //Keys (Custom Mapping Soon!)
         //DPAD
         Android.Views.Keycode bUp = Android.Views.Keycode.DpadUp;
         Android.Views.Keycode bDo = Android.Views.Keycode.DpadDown;
