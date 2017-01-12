@@ -61,20 +61,20 @@ namespace VitaMote {
 
         public void OnKey([GeneratedEnum] Android.Views.Keycode primaryCode, [GeneratedEnum] Android.Views.Keycode[] keyCodes) {
             IInputConnection ic = CurrentInputConnection;
-            switch (primaryCode) {
-                case Android.Views.Keycode.Del:
+            switch ((int)primaryCode) {
+                case (int)Android.Views.Keycode.Del:
                     //ic.SendKeyEvent(new KeyEvent(KeyEventActions.Down,Android.Views.Keycode.Del));
                     ic.DeleteSurroundingText(1, 0);
                     break;
-                case Android.Views.Keycode.CapsLock:
+                case -1:
                     caps=!caps;
                     keyboard.SetShifted(caps);
                     kv.InvalidateAllKeys();
                     break;
-                case Android.Views.Keycode.Enter:
+                case (int)Android.Views.Keycode.Enter:
                     ic.SendKeyEvent(new KeyEvent(KeyEventActions.Down, Android.Views.Keycode.Enter));
                     break;
-                case Android.Views.Keycode.Button9:
+                case (int)Android.Views.Keycode.Button9:
                     try{
                         onREC();
                     }
