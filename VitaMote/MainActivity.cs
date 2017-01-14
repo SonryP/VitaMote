@@ -63,7 +63,7 @@ namespace VitaMote {
             Java.IO.File file = new Java.IO.File(dir, "ip.scf");
             if (!file.Exists()) {
                 Toast.MakeText(this, "Remember to store an IP", ToastLength.Long).Show();
-                return "There is NO IP Stored";
+                return "No IP Saved";
             }
             else {
                 Java.IO.FileReader fread = new Java.IO.FileReader(file);

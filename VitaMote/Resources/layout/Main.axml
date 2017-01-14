@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView3" />
     <TextView
-        android:text="3-Go to Keyboard Config and enable VitaIME"
+        android:text="3-Press Change IME and enable VitaIME"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,11 +44,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView5" />
     <TextView
-        android:text="This APK is an Alpha release, some bugs will appear"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView6" />
+        android:id="@+id/textView6"
+        android:text="It's time for a Beta, please report bugs on Github" />
     <TextView
         android:text="No IP Saved"
         android:textAppearance="?android:attr/textAppearanceLarge"
