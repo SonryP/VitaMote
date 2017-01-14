@@ -16,6 +16,7 @@ using Android.Views.InputMethods;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.IO;
+using Android.Util;
 
 namespace VitaMote {
     [Service(Label = "VitaIME", Permission = "android.permission.BIND_INPUT_METHOD")]
@@ -23,7 +24,6 @@ namespace VitaMote {
     [IntentFilter(new [] { "android.view.InputMethod" })]
     class VitaIME : InputMethodService, IOnKeyboardActionListener {
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
-        int btn = 0;
         private KeyboardView kv;
         private Keyboard keyboard;
         private bool caps = false;
@@ -88,23 +88,6 @@ namespace VitaMote {
         const int btnLRS = btnLt + btnRt + btnS;
         const int btnLRT = btnLt + btnRt + btnT;
         const int btnLRX = btnLt + btnRt + btnX;
-        //Status Check (Need to Replace that)
-        bool P_btnDpadL = false;
-        bool P_btnDpadR = false;
-        bool P_btnDpadD = false;
-        bool P_btnDpadU = false;
-        bool P_btnX = false;
-        bool P_btnC = false;
-        bool P_btnT = false;
-        bool P_btnS = false;
-        bool P_btnL = false;
-        bool P_btnR = false;
-        bool P_btnSel = false;
-        bool P_btnSta = false;
-        bool P_aLX = false;
-        bool P_aLY = false;
-        bool P_aRX = false;
-        bool P_aRY = false;
         //Keys (Custom Mapping Soon!)
         //DPAD
         Android.Views.Keycode bUp = Android.Views.Keycode.DpadUp;
@@ -134,10 +117,7 @@ namespace VitaMote {
         Android.Views.Keycode aRu = Android.Views.Keycode.I;
         Android.Views.Keycode aRd = Android.Views.Keycode.K;
 
-
         bool timer = false;
-        Android.Views.Keycode preBtnX = Android.Views.Keycode.A;
-        Android.Views.Keycode preBtnY = Android.Views.Keycode.A;
 
         public void OnKey([GeneratedEnum] Android.Views.Keycode primaryCode, [GeneratedEnum] Android.Views.Keycode [] keyCodes) {
             IInputConnection ic = CurrentInputConnection;
@@ -160,6 +140,7 @@ namespace VitaMote {
                     }
                     catch (System.Exception ex) {
                         Toast.MakeText(this, "PSVITA Connected", ToastLength.Long).Show();
+                        Log.Info("Exception: ",ex.ToString());
                     }
 
                     break;
@@ -224,6 +205,7 @@ namespace VitaMote {
             }
             catch (System.Exception ex) {
                 Toast.MakeText(this, "Network Error, try again", ToastLength.Long).Show();
+                Log.Info("Exception: ", ex.ToString());
             }
 
 
@@ -250,6 +232,7 @@ namespace VitaMote {
             }
             catch (System.Exception ex) {
                 Toast.MakeText(this, "Network Error, try again", ToastLength.Long).Show();
+                Log.Info("Exception: ", ex.ToString());
             }
         }
         public override void OnDestroy() {
@@ -276,8 +259,8 @@ namespace VitaMote {
                     serverStream.Flush();
                     b1 = serverStream.ReadByte();//DPAD + SEL + STA
                     b2 = serverStream.ReadByte();//XCTS + LT + RT
-                    b3 = serverStream.ReadByte();//UNUSED
-                    b4 = serverStream.ReadByte();//UNUSED
+                    b3 = serverStream.ReadByte();//NOT USED
+                    b4 = serverStream.ReadByte();//NOT USED
                     b5 = serverStream.ReadByte();//L ANALOG X DATA
                     b6 = serverStream.ReadByte();//L ANALOG Y DARA
                     b7 = serverStream.ReadByte();//R ANLAOG X DATA
@@ -288,15 +271,14 @@ namespace VitaMote {
                 }
                 catch (System.Exception ex) {
                     Toast.MakeText(this, "PSVITA Disconnected", ToastLength.Long).Show();
+                    Log.Info("Exception: ", ex.ToString());
                     timer = false;
                 }
             }
         }
-        int co = 0;
-
         private void keySystem(int a, int b, int c, int d, int e, int f, int g, int h) {
             ic = CurrentInputConnection;
-            //Normal Press
+            //DPAD + SEL STA
             if (a == btnU) {
                 KeyEvent ks = new KeyEvent(KeyEventActions.Down, bUp);
                 ic.SendKeyEvent(ks);
@@ -486,7 +468,7 @@ namespace VitaMote {
                 ic.SendKeyEvent(kd);
             }
 
-            //SECOND
+            //TCXS + L R
             if (b == 16) {
                 KeyEvent ka = new KeyEvent(KeyEventActions.Down, bT);
                 ic.SendKeyEvent(ka);
@@ -671,10 +653,11 @@ namespace VitaMote {
             }
 
 
-
+            //Analogs
             if (g <= 50 && g >= 0) {
                 KeyEvent ka = new KeyEvent(KeyEventActions.Down, aRl);
                 ic.SendKeyEvent(ka);
+
             } else {
                 KeyEvent ka = new KeyEvent(KeyEventActions.Up, aRl);
                 ic.SendKeyEvent(ka);
@@ -703,98 +686,6 @@ namespace VitaMote {
             }
         }
 
-
-        private void upEventK() {
-            ic = CurrentInputConnection;
-            if (P_btnDpadU == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bUp);
-                ic.SendKeyEvent(ks);
-                P_btnDpadU = false;
-            }
-            if (P_btnDpadR == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bRi);
-                ic.SendKeyEvent(ks);
-                P_btnDpadR = false;
-            }
-            if (P_btnDpadD == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bDo);
-                ic.SendKeyEvent(ks);
-                P_btnDpadD = false;
-            }
-            if (P_btnDpadL == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bLe);
-                ic.SendKeyEvent(ks);
-                P_btnDpadL = false;
-            }
-            if (P_btnX == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bX);
-                ic.SendKeyEvent(ks);
-                P_btnX = false;
-            }
-            if (P_btnT == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bT);
-                ic.SendKeyEvent(ks);
-                P_btnT = false;
-            }
-            if (P_btnC == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bC);
-                ic.SendKeyEvent(ks);
-                P_btnC = false;
-            }
-            if (P_btnS == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bS);
-                ic.SendKeyEvent(ks);
-                P_btnS = false;
-            }
-            if (P_btnL == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bLt);
-                ic.SendKeyEvent(ks);
-                P_btnL = false;
-            }
-            if (P_btnR == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bRt);
-                ic.SendKeyEvent(ks);
-                P_btnR = false;
-            }
-            if (P_btnSel == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bSe);
-                ic.SendKeyEvent(ks);
-                P_btnSel = false;
-            }
-            if (P_btnSta == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, bSt);
-                ic.SendKeyEvent(ks);
-                P_btnSta = false;
-            }
-            if (P_aLX == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, aLl);
-                KeyEvent kx = new KeyEvent(KeyEventActions.Up, aLr);
-                ic.SendKeyEvent(ks);
-                ic.SendKeyEvent(kx);
-                P_aLX = false;
-            }
-            if (P_aLY == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, aLu);
-                KeyEvent kx = new KeyEvent(KeyEventActions.Up, aLd);
-                ic.SendKeyEvent(ks);
-                ic.SendKeyEvent(kx);
-                P_aLY = false;
-            }
-            if (P_aRX == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, aRl);
-                KeyEvent kx = new KeyEvent(KeyEventActions.Up, aRr);
-                ic.SendKeyEvent(ks);
-                ic.SendKeyEvent(kx);
-                P_aRX = false;
-            }
-            if (P_aRY == true) {
-                KeyEvent ks = new KeyEvent(KeyEventActions.Up, aRu);
-                KeyEvent kx = new KeyEvent(KeyEventActions.Up, aRd);
-                ic.SendKeyEvent(ks);
-                ic.SendKeyEvent(kx);
-                P_aRY = false;
-            }
-        }
 
     }
 }
