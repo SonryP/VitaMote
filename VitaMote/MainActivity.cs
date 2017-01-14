@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Views.InputMethods;
 
 namespace VitaMote {
     [Activity(Label = "VitaMote", MainLauncher = true, Icon = "@drawable/icon")]
@@ -19,12 +20,17 @@ namespace VitaMote {
             // Get our button from the layout resource,
             // and attach an event to it
             Button button = FindViewById<Button>(Resource.Id.MyButton);
+            Button btnime = FindViewById<Button>(Resource.Id.btnIME);
             EditText text1 = FindViewById<EditText>(Resource.Id.editText1);
             label1 = FindViewById<TextView>(Resource.Id.textView7);
             label1.Text=reFile();
             button.Click+=delegate {
                 saveFl(text1.Text); //button.Text=string.Format("{0} clicks xD!", count++);
                 label1.Text=reFile();
+            };
+            btnime.Click += delegate {
+                InputMethodManager imeManager = (InputMethodManager)GetSystemService(InputMethodService);
+                imeManager.ShowInputMethodPicker();
             };
         }
 
