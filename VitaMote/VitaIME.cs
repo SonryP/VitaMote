@@ -29,7 +29,7 @@ namespace VitaMote {
         private bool caps = false;
         IInputConnection ic;
         //Buttons
-        int b1, b2, b3, b4, b5, b6, b7, b8;
+        int b1, b2, b3, b4, b5, b6, b7, b8,b9;
         //Type 1
         const int btnL = 128;
         const int btnR = 32;
@@ -262,11 +262,12 @@ namespace VitaMote {
                     b3 = serverStream.ReadByte();//NOT USED
                     b4 = serverStream.ReadByte();//NOT USED
                     b5 = serverStream.ReadByte();//L ANALOG X DATA
-                    b6 = serverStream.ReadByte();//L ANALOG Y DARA
-                    b7 = serverStream.ReadByte();//R ANLAOG X DATA
+                    b6 = serverStream.ReadByte();//L ANALOG Y DATA
+                    b7 = serverStream.ReadByte();//R ANALOG X DATA
+                    b8 = serverStream.ReadByte();//R ANLAOG Y DATA
                     byte [] inStream = new byte [clientSocket.ReceiveBufferSize];
                     serverStream.Read(inStream, 0, (int)clientSocket.ReceiveBufferSize);
-                    b8 = BitConverter.ToInt32(inStream, 0); //R ANALOG Y DATA
+                    b9 = BitConverter.ToInt32(inStream, 0);//TOUCHSCREEN DATA (Not Used Yet)
                     keySystem(b1, b2, b3, b4, b5, b6, b7, b8);
                 }
                 catch (System.Exception ex) {
