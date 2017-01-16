@@ -686,7 +686,5 @@ namespace VitaMote {
                 ic.SendKeyEvent(ka);
             }
         }
-
-
-    }
+     }
 }
