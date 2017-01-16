@@ -7,7 +7,7 @@ Use your Ps Vita as an Android Controller using VitaPad.
 <br>2- Install VitaMote apk on Android phone or Tablet
 <br>3- Put your Vita's IP on the app and Save*
 
-!!!-VitaMote is in Alpha Version, please send bugs or problems-!!!
+<br>VitaMote is in Beta, please report any issue or problem, i'll be completely thankful.
 
 ## Usage
 1- On Languaje & Input turn on VitaIME as a Keyboard
@@ -24,11 +24,13 @@ TODO:
 ## History
 <br>Alpha Released...
 <br>Keyboard Fixed (S key doesn't work)
-<br>Thinking about custom mapping...
+<br>Beta Released....
+<br>Improvements in Key reception and Key Combos.
+<br>"Change IME" button to easy configuration.
 
 ## Credits
--Thanks to Rinnegatamante for Creating VitaPad
--Sonry: Android App
+<br>-Thanks to Rinnegatamante for Creating VitaPad
+<br>-Sonry: Android App
 ## License
 TODO: Write license
 </content>
