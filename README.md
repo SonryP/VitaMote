@@ -17,7 +17,6 @@ Use your Ps Vita as an Android Controller using VitaPad.
 *You must be on the same wifi network to make this works
 
 TODO: 
-<br>-Analogs Don't Work on this version, i'm working on it :D
 <br>-Improve Code
 <br>-Custom Mappings
 
@@ -26,6 +25,7 @@ TODO:
 <br>Keyboard Fixed (S key doesn't work)
 <br>Beta Released....
 <br>Improvements in Key reception and Key Combos.
+<br>Analogs!
 <br>"Change IME" button to easy configuration.
 
 ## Credits
