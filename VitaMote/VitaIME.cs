@@ -107,15 +107,94 @@ namespace VitaMote {
         Android.Views.Keycode bSt = Android.Views.Keycode.Back;
         //Analogs
         //LEFT
-        Android.Views.Keycode aLl = Android.Views.Keycode.A;
-        Android.Views.Keycode aLr = Android.Views.Keycode.D;
         Android.Views.Keycode aLu = Android.Views.Keycode.W;
         Android.Views.Keycode aLd = Android.Views.Keycode.S;
+        Android.Views.Keycode aLl = Android.Views.Keycode.A;
+        Android.Views.Keycode aLr = Android.Views.Keycode.D;
         //RIGHT
-        Android.Views.Keycode aRl = Android.Views.Keycode.J;
-        Android.Views.Keycode aRr = Android.Views.Keycode.L;
         Android.Views.Keycode aRu = Android.Views.Keycode.I;
         Android.Views.Keycode aRd = Android.Views.Keycode.K;
+        Android.Views.Keycode aRl = Android.Views.Keycode.J;
+        Android.Views.Keycode aRr = Android.Views.Keycode.L;
+
+        //Custom Mapping System
+        public void loadCM() {
+            int l = 0;
+            string line;
+            Java.IO.File sdCard = Android.OS.Environment.ExternalStorageDirectory;
+            Java.IO.File dir = new Java.IO.File(sdCard.AbsolutePath + "/SonryVitaMote");
+            Java.IO.File file = new Java.IO.File(dir, "cm.scf");
+            Java.IO.FileReader fread = new Java.IO.FileReader(file);
+            Java.IO.BufferedReader br = new Java.IO.BufferedReader(fread);
+            while ((line = br.ReadLine()) != null) {
+                switch (l) {
+                    case 0:
+                        bUp = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 1:
+                        bDo = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 2:
+                        bLe = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 3:
+                        bRi = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 4:
+                        bLt = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 5:
+                        bRt = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 6:
+                        bX = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 7:
+                        bC = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 8:
+                        bT = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 9:
+                        bS = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 10:
+                        bSe = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 11:
+                        bSt = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 12:
+                        aLu = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 13:
+                        aLd = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 14:
+                        aLl = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 15:
+                        aLr = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 16:
+                        aRu = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 17:
+                        aRd = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 18:
+                        aRl = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                    case 19:
+                        aRr = (Android.Views.Keycode)Integer.ParseInt(line);
+                        break;
+                }
+                l++;
+            }
+            fread.Close();
+            
+        }
+
 
         bool timer = false;
 
@@ -184,6 +263,7 @@ namespace VitaMote {
         }
         public override void OnCreate() {
             base.OnCreate();
+            loadCM();
             string ip = "0";
             timer = true;
             Java.IO.File sdCard = Android.OS.Environment.ExternalStorageDirectory;
