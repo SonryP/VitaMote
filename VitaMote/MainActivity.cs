@@ -13,25 +13,26 @@ namespace VitaMote {
         TextView label1;
         protected override void OnCreate(Bundle bundle) {
             base.OnCreate(bundle);
-
-            // Set our view from the "main" layout resource
+            
             SetContentView(Resource.Layout.Main);
 
-            // Get our button from the layout resource,
-            // and attach an event to it
             Button button = FindViewById<Button>(Resource.Id.MyButton);
             Button btnime = FindViewById<Button>(Resource.Id.btnIME);
+            Button btnmap = FindViewById<Button>(Resource.Id.btnMap);
             EditText text1 = FindViewById<EditText>(Resource.Id.editText1);
             label1 = FindViewById<TextView>(Resource.Id.textView7);
             label1.Text=reFile();
             button.Click+=delegate {
-                saveFl(text1.Text); //button.Text=string.Format("{0} clicks xD!", count++);
+                saveFl(text1.Text);
                 label1.Text=reFile();
             };
             btnime.Click += delegate {
                 InputMethodManager imeManager = (InputMethodManager)GetSystemService(InputMethodService);
                 imeManager.ShowInputMethodPicker();
             };
+            btnmap.Click += delegate {
+                StartActivity(typeof(CusMap));           
+                };
         }
 
         private void saveFl(string texto) {

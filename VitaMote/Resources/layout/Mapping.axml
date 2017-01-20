@@ -16,150 +16,178 @@
             android:layout_height="match_parent"
             android:id="@+id/gridLayout1"
             android:columnCount="2"
-            android:rowCount="20"
+            android:rowCount="21"
             android:orientation="vertical">
             <ImageView
                 android:src="@drawable/bu"
                 android:id="@+id/imageView1"
                 android:layout_marginRight="0.0dp"
-                android:layout_marginBottom="0.0dp"
-                android:layout_height="32px"
-                android:layout_width="32px" />
-            <ImageView
-                android:src="@drawable/ble"
-                android:id="@+id/imageView2"
-                android:layout_width="32px"
-                android:layout_height="32px" />
-            <ImageView
-                android:src="@drawable/bd"
-                android:id="@+id/imageView3"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:layout_marginBottom="0.0dp" />
             <ImageView
                 android:src="@drawable/bri"
-                android:id="@+id/imageView4"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView2" />
+            <ImageView
+                android:src="@drawable/bd"
+                android:id="@+id/imageView3"/>
+            <ImageView
+                android:src="@drawable/ble"
+                android:id="@+id/imageView4" />
             <ImageView
                 android:src="@drawable/bl"
-                android:id="@+id/imageView5"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView5" />
             <ImageView
                 android:src="@drawable/br"
-                android:id="@+id/imageView6"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView6"/>
             <ImageView
                 android:src="@drawable/bx"
-                android:id="@+id/imageView7"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView7"/>
             <ImageView
                 android:src="@drawable/bc"
-                android:id="@+id/imageView8"
-                android:layout_width="32px"
-                android:layout_height="32px" />
-            <ImageView
-                android:src="@drawable/bs"
-                android:id="@+id/imageView9"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView8"/>
             <ImageView
                 android:src="@drawable/bt"
-                android:id="@+id/imageView10"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView9"/>
+            <ImageView
+                android:src="@drawable/bs"
+                android:id="@+id/imageView10" />
             <ImageView
                 android:src="@drawable/bse"
-                android:id="@+id/imageView11"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView11" />
             <ImageView
                 android:src="@drawable/bst"
-                android:id="@+id/imageView12"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView12"/>
             <ImageView
                 android:src="@drawable/alu"
-                android:id="@+id/imageView13"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView13"/>
             <ImageView
                 android:src="@drawable/alr"
-                android:id="@+id/imageView14"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView14"/>
             <ImageView
                 android:src="@drawable/ald"
-                android:id="@+id/imageView15"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView15" />
             <ImageView
                 android:src="@drawable/all"
-                android:id="@+id/imageView16"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView16"/>
             <ImageView
                 android:src="@drawable/aru"
-                android:id="@+id/imageView17"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView17"/>
             <ImageView
                 android:src="@drawable/arr"
-                android:id="@+id/imageView18"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView18"/>
             <ImageView
                 android:src="@drawable/ard"
-                android:id="@+id/imageView19"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView19" />
             <ImageView
                 android:src="@drawable/arl"
-                android:id="@+id/imageView20"
-                android:layout_width="32px"
-                android:layout_height="32px" />
+                android:id="@+id/imageView20" />
+          <Button
+        android:text="Load Defaults"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnLoad" />
             <Spinner
-                android:id="@+id/spinner1" />
+                android:id="@+id/spinner1" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner2" />
+                android:id="@+id/spinner2" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner3" />
+                android:id="@+id/spinner3" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner4" />
+                android:id="@+id/spinner4" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner5" />
+                android:id="@+id/spinner5" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner6" />
+                android:id="@+id/spinner6" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner7" />
+                android:id="@+id/spinner7" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner8" />
+                android:id="@+id/spinner8" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner9" />
+                android:id="@+id/spinner9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner10" />
+                android:id="@+id/spinner10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner11" />
+                android:id="@+id/spinner11" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner12" />
+                android:id="@+id/spinner12" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner13" />
+                android:id="@+id/spinner13" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner14" />
+                android:id="@+id/spinner14" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner15" />
+                android:id="@+id/spinner15" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner16" />
+                android:id="@+id/spinner16" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner17" />
+                android:id="@+id/spinner17" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner18" />
+                android:id="@+id/spinner18" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner19" />
+                android:id="@+id/spinner19" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
             <Spinner
-                android:id="@+id/spinner20" />
+                android:id="@+id/spinner20" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"/>
+         <Button
+        android:text="Save"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSve" />
         </GridLayout>
     </ScrollView>
 </LinearLayout>
