@@ -1,15 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Java.Util;
 
 namespace VitaMote {
 
@@ -42,14 +36,15 @@ namespace VitaMote {
         protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Mapping);
+            //It's stupid, but.. there is no other form right now
             for (int i = 0; i < dk.Length; i++) {
                 allM.Add(dk [i]);
             }
-            //Key Strings
+            //Key Strings (It was tedious to write them all >.<, there are some missed, but are not too interesting...) 
             this.dispKeys = new String[] {
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Alt Left", "Alt Right", "Apostrophe", "App Switch", "Assist", "At", "Avr Input", "Avr Power", "Back", "Backslash", "Bookmark", "Break", "Brightness Up", "Brightness Down", "Button 1", "Button 2", "Button 3", "Button 4", "Button 5", "Button 6", "Button 7", "Button 8", "Button 9", "Button 10", "Button 11", "Button 12", "Button 13", "Button 14", "Button 15", "Button 16", "Button A", "Button B", "Button C", "Button X", "Button Y", "Button Z", "Button L1", "Button L2", "Button R1", "Button R2", "Button Select", "Button Start", "Button Mode", "Button Thumb L", "Button Thumb R", "Calculator", "Calendar", "Call", "Camera", "Caps Lock", "Caption", "Channel Up", "Channel Down", "Clear", "Comma", "Contacts", "Copy", "Ctrl Left", "Ctrl Right", "Cut", "Del", "Dpad Center", "Dpad DownLeft", "Dpad DownRight", "Dpad UpLeft", "Dpad UpRight", "Dpad Left", "Dpad Right", "Dpad Up", "Dpad Down", "Dvr", "Eisu", "End Call", "Enter", "Envelope", "Equals", "Escape", "Explorer", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "Focus", "Forward", "Forward Del", "Function", "Grave", "Guide", "Headset Hook", "Help", "Henkan", "Home", "Info", "Insert", "K11", "K12", "Kana", "Katakana Higragana", "Languaje Switch", "Last Channel", "Left Bracket", "Manner Mode", "Media Audio Track", "Media Close", "Media Eject", "Media Fast Forward", "Media Next", "Media Pause", "Media Play", "Media Play Pause", "Media Previous", "Media Record", "Media Rewind", "Media Stop", "Menu", "Minus", "Music", "Mute", "Navigate In", "Navigate Out", "Navigate Previous", "Notification", "Num", "Num 0 ", "Num 1", "Num 2", "Num 3", "Num 4", "Num 5", "Num 6", "Num 7", "Num 8", "Num 9", "Num Lock", "NumPad 0 ", "NumPad 1", "NumPad 2", "NumPad 3", "NumPad 4", "NumPad 5", "NumPad 6", "NumPad 7", "NumPad 8", "NumPad 9", "NumPad Add", "NumPad Comma", "NumPad Divide", "NumPad Dot", "NumPad Enter", "NumPad Equals", "NumPad Multiply", "NumPad Substract", "NumPad Left Parent", "NumPad Right Parent", "Page Down", "Page Up", "Pairing", "Paste", "Period", "Plus", "Pound", "Power", "Prog Green", "Prog Red", "Prog Blue", "Prog Yellow", "Right Bracket", "Search", "Semicolon", "Settings", "Shift Left", "Shift Right", "Slash", "Sleep", "Space", "Star (*)", "Sym", "SysRq", "Tab", "Volume Down", "Volume Up", "Volume Mute", "Wake Up", "Window", "Zoom In", "Zoom Out"
         };
-            //Some piece of code
+            //Some piece of code, spinners, and buttons...
             s1 = (Spinner)FindViewById(Resource.Id.spinner1);
             s2 = (Spinner)FindViewById(Resource.Id.spinner2);
             s3 = (Spinner)FindViewById(Resource.Id.spinner3);
@@ -72,7 +67,6 @@ namespace VitaMote {
             s20 = (Spinner)FindViewById(Resource.Id.spinner20);
             Button butLo = (Button)FindViewById(Resource.Id.btnLoad);
             Button butSa = (Button)FindViewById(Resource.Id.btnSve);
-
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     Android.Resource.Layout.SimpleSpinnerItem, dispKeys);
             s1.Adapter = adapter;
@@ -102,8 +96,6 @@ namespace VitaMote {
             butSa.Click += delegate { 
                 saveCM();
             };
-
-
         }
         private void saveCM() {
             string cmtxt = (int)allM [(int)s1.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s2.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s3.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s4.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s5.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s6.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s7.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s8.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s9.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s10.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s11.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s12.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s13.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s14.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s15.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s16.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s17.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s18.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s19.SelectedItemId] + System.Environment.NewLine + (int)allM [(int)s20.SelectedItemId];
@@ -118,7 +110,6 @@ namespace VitaMote {
                 writer.Write(cmtxt);
                 writer.Flush();
                 writer.Close();
-                //Toast.MakeText(this, "Successfully Saved", ToastLength.Long).Show();
             } else {
                 Java.IO.FileWriter writer = new Java.IO.FileWriter(file);
                 writer.Write(cmtxt);
@@ -204,13 +195,13 @@ namespace VitaMote {
                 }
                 fread.Close();
             }
-            catch (Exception ex) {
+            catch (Exception) {
                 setDefaults();
                 saveCM();
             }
-
         }
         private void setDefaults() {
+            //Default Keys if you want to back
             s1.SetSelection(allM.IndexOf(Keycode.DpadUp));
             s2.SetSelection(allM.IndexOf(Keycode.DpadRight));
             s3.SetSelection(allM.IndexOf(Keycode.DpadDown));
