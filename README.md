@@ -18,7 +18,7 @@ Use your Ps Vita as an Android Controller using VitaPad.
 
 TODO: 
 <br>-Improve Code
-<br>-Custom Mappings
+<br>-Improve and Redesign App
 
 ## History
 <br>Alpha Released...
@@ -27,9 +27,11 @@ TODO:
 <br>Improvements in Key reception and Key Combos.
 <br>Analogs!
 <br>"Change IME" button to easy configuration.
+<br>Custom Mappings are Here!
 
 ## Credits
 <br>-Thanks to Rinnegatamante for Creating VitaPad
+<br>-Ps Vita Buttons by Jacob Yard
 <br>-Sonry: Android App
 ## License
 TODO: Write license
