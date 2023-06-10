@@ -10,7 +10,7 @@ Use your Ps Vita as an Android Controller using VitaPad.
 <br>VitaMote is in Beta, please report any issue or problem, i'll be completely thankful.
 
 ## Usage
-1- On Languaje & Input turn on VitaIME as a Keyboard
+1- On Language & Input turn on VitaIME as a Keyboard
 
 2 -Change your current Keyboard to VitaMote Controller
 
