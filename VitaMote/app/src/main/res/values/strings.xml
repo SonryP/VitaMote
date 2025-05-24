@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">VitaMote</string>
+    <string name="default_ip">192.168.1.2</string>
+    <string name="save_button">Save PSVita IP</string>
+    <string name="steps_title">Steps</string>
+    <string name="step_one">1-Install Rinnegatamante\'s VitaPad on your PSVita and Put the Vita\'s IP address on this app</string>
+    <string name="step_two">2-Save the IP (Make sure this phone and PSVita are on the same network)</string>
+    <string name="step_three">3-Press Change IME and enable VitaIME</string>
+    <string name="step_four">4-Select the IME as the Android Input and the PSVita will automatically connect to your phone</string>
+    <string name="disclaimer">This app is still on beta, please report bugs on GitHub</string>
+    <string name="no_ip">No IP Saved</string>
+    <string name="change_ime_button">Change IME</string>
+    <string name="custom_mapping_button">Custom Mapping</string>
+</resources>

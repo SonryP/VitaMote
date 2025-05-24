@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/ip_input"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="16dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:inputType="text"
+            android:text="@string/default_ip"
+            tools:ignore="LabelFor" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="386dp"
+            android:layout_height="52dp"
+            android:text="@string/save_button" />
+
+        <TextView
+            android:text="@string/steps_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView1" />
+        <TextView
+            android:text="@string/step_one"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
+        <TextView
+            android:text="@string/step_two"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3" />
+        <TextView
+            android:text="@string/step_three"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4" />
+        <TextView
+            android:text="@string/step_four"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5" />
+
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView6"
+            android:text="@string/disclaimer" />
+        <TextView
+            android:text="@string/no_ip"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ip_text" />
+        <Button
+            android:text="@string/change_ime_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnIME" />
+        <Button
+            android:text="@string/custom_mapping_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnMap" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
