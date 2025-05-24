@@ -11,4 +11,8 @@
     <string name="no_ip">No IP Saved</string>
     <string name="change_ime_button">Change IME</string>
     <string name="custom_mapping_button">Custom Mapping</string>
+    <string name="q">Q</string>
+    <string name="w">W</string>
+    <string name="rem_ime">VitaIME</string>
+    <string name="subtype_en_US">VitaMote Controller</string>
 </resources>

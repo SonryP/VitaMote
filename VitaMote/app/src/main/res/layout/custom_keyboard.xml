@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/keyboard_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#DDD"
+    android:padding="4dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button android:id="@+id/key_q" android:text="@string/q" style="@style/KeyButton"/>
+        <Button android:id="@+id/key_w" android:text="@string/w" style="@style/KeyButton"/>
+        <Button android:id="@+id/key_psvita" android:text="@string/app_name" style="@style/KeyButton"/>
+
+        <!-- Test purposes -->
+    </LinearLayout>
+
+
+</LinearLayout>
