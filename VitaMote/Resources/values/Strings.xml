@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="Hello">Save PSVita IP</string>
-    <string name="ApplicationName">VitaMote</string>
-    <string name="rem_ime">VitaIME</string>
-    <string name="subtype_en_US">VitaMote Controller</string>
-</resources>
