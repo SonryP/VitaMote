@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
@@ -17,7 +18,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cl.sonry.vitamote.enums.TypeA;
+import cl.sonry.vitamote.enums.TypeB;
 
 public class VitaIME  extends InputMethodService {
     private boolean caps = false;
@@ -34,6 +44,8 @@ public class VitaIME  extends InputMethodService {
     int btnSel = 1;
     int btnSta = 8;
 
+    HashMap<TypeA, Integer> typeAButtons = new HashMap<>();
+    HashMap<TypeB, Integer> typeBButtons = new HashMap<>();
 
 
     @Override
@@ -42,6 +54,7 @@ public class VitaIME  extends InputMethodService {
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
         super.onCreate();
+        initializeButtons();
         loadCustomMapping();
         connectToVita();
     }
@@ -97,28 +110,83 @@ public class VitaIME  extends InputMethodService {
                 // TODO: Do a better and cleaner job here
                 byte [] inStream = new byte [clientSocket.getReceiveBufferSize()];
                 in.read(inStream, 0, (int)clientSocket.getReceiveBufferSize());
-                testKeys(b1);
+                sendTypeA(b1);
+                sendTypeB(b2);
             }
 
         } catch (Exception ex) {
             Log.e("VitaIME", "Disconnected", ex);
             runOnUiThread(() -> Toast.makeText(this, "Disconnected", Toast.LENGTH_LONG).show());
+            timer=false;
         }
     }
     private void runOnUiThread(Runnable runnable) {
         new android.os.Handler(getMainLooper()).post(runnable);
     }
 
-    private void testKeys(int a){
+    ArrayList<Integer> lastKeyA =new ArrayList<>();
+    ArrayList<Integer> lastKeyB =new ArrayList<>();
+    private void sendTypeA(int a){
         ic = getCurrentInputConnection();
-        if (a == btnU) {
-            KeyEvent ks = new KeyEvent(0,KeyEvent.KEYCODE_DPAD_UP);
-            ic.sendKeyEvent(ks);
+        if(a!=0){
+            EnumSet<TypeA> buttons = TypeA.fromCombinedValue(a);
+            for (TypeA button : buttons) {
+                if(typeAButtons.containsKey(button)){
+                    var keyCode = typeAButtons.getOrDefault(button,0);
+                    KeyEvent ks = new KeyEvent(0, keyCode);
+                    ic.sendKeyEvent(ks);
+                    lastKeyA.add(keyCode);
+                }
+            }
+        }else if(!lastKeyA.isEmpty()){
+            for(Integer keyCode: lastKeyA){
+                KeyEvent ks = new KeyEvent(1, keyCode);
+                ic.sendKeyEvent(ks);
+
+            }
+            lastKeyA = new ArrayList<>();
+        }
+    }
+
+    private void sendTypeB(int a){
+        ic = getCurrentInputConnection();
+        if(a!=0){
+            EnumSet<TypeB> buttons = TypeB.fromCombinedValue(a);
+            for (TypeB button : buttons) {
+                if(typeBButtons.containsKey(button)){
+                    var keyCode = typeBButtons.getOrDefault(button,0);
+                    KeyEvent ks = new KeyEvent(0, keyCode);
+                    ic.sendKeyEvent(ks);
+                    lastKeyB.add(keyCode);
+                }
+            }
+        }else if(!lastKeyB.isEmpty()){
+            for(Integer keyCode: lastKeyB){
+                KeyEvent ks = new KeyEvent(1, keyCode);
+                ic.sendKeyEvent(ks);
+
+            }
+            lastKeyB = new ArrayList<>();
         }
     }
 
     private void loadCustomMapping() {
         // Read cm.scf and assign values like KeyEvent.KEYCODE_DPAD_UP etc.
+    }
+
+    private void initializeButtons(){
+        typeAButtons.put(TypeA.UP, KeyEvent.KEYCODE_DPAD_UP);
+        typeAButtons.put(TypeA.RIGHT, KeyEvent.KEYCODE_DPAD_RIGHT);
+        typeAButtons.put(TypeA.DOWN, KeyEvent.KEYCODE_DPAD_DOWN);
+        typeAButtons.put(TypeA.LEFT, KeyEvent.KEYCODE_DPAD_LEFT);
+        typeAButtons.put(TypeA.SELECT, KeyEvent.KEYCODE_DPAD_CENTER);
+        typeAButtons.put(TypeA.START, KeyEvent.KEYCODE_BACK);
+        typeBButtons.put(TypeB.LT,KeyEvent.KEYCODE_BUTTON_L2);
+        typeBButtons.put(TypeB.RT,KeyEvent.KEYCODE_BUTTON_R2);
+        typeBButtons.put(TypeB.T,KeyEvent.KEYCODE_BUTTON_Y);
+        typeBButtons.put(TypeB.C,KeyEvent.KEYCODE_BUTTON_B);
+        typeBButtons.put(TypeB.S,KeyEvent.KEYCODE_BUTTON_X);
+        typeBButtons.put(TypeB.X,KeyEvent.KEYCODE_BUTTON_A);
     }
 
 }
