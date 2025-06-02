@@ -53,6 +53,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,  "Not implemented on this version", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

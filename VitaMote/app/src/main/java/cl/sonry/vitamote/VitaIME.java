@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -37,13 +38,6 @@ public class VitaIME  extends InputMethodService {
     private boolean timer = false;
 
     int b1, b2, b3, b4, b5, b6, b7, b8,b9;
-    //Type 1
-    int btnL = 128;
-    int btnR = 32;
-    int btnD = 64;
-    int btnU = 16;
-    int btnSel = 1;
-    int btnSta = 8;
 
     HashMap<TypeA, Integer> typeAButtons = new HashMap<>();
     HashMap<TypeB, Integer> typeBButtons = new HashMap<>();
@@ -66,18 +60,20 @@ public class VitaIME  extends InputMethodService {
 
         ic = getCurrentInputConnection();
 
-        Button keyQ = view.findViewById(R.id.key_q);
-        Button keyW = view.findViewById(R.id.key_w);
+        Button keyIme = view.findViewById(R.id.key_ime);
+        Button keyConnect = view.findViewById(R.id.key_psvita);
 
-        keyQ.setOnClickListener(v -> sendKey('q'));
-        keyW.setOnClickListener(v -> sendKey('w'));
+        keyIme.setOnClickListener(v -> changeIme());
+        keyConnect.setOnClickListener(v -> connectToVita());
 
         return view;
     }
 
-    private void sendKey(char c) {
-        if (ic != null) {
-            ic.commitText(String.valueOf(c), 1);
+    private void changeIme(){
+        //TODO: Put in a common class
+        InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (imeManager != null) {
+            imeManager.showInputMethodPicker();
         }
     }
 
@@ -121,6 +117,7 @@ public class VitaIME  extends InputMethodService {
 
                 sendType(b1,TypeA::fromCombinedValue, typeAButtons, lastKeyA);
                 sendType(b2, TypeB::fromCombinedValue, typeBButtons, lastKeyB);
+                sendAnalog(b5,b6,b7,b8);
             }
 
         } catch (Exception ex) {
@@ -162,6 +159,26 @@ public class VitaIME  extends InputMethodService {
         }
     }
 
+    private void sendAnalog(int lAnalogX, int lAnalogY, int rAnalogX, int rAnalogY) {
+        handleAnalogDirection(lAnalogX, KeyEvent.KEYCODE_A, KeyEvent.KEYCODE_D);
+        handleAnalogDirection(lAnalogY, KeyEvent.KEYCODE_W, KeyEvent.KEYCODE_S);
+        handleAnalogDirection(rAnalogX, KeyEvent.KEYCODE_J, KeyEvent.KEYCODE_L);
+        handleAnalogDirection(rAnalogY, KeyEvent.KEYCODE_I, KeyEvent.KEYCODE_K);
+    }
+
+    private void handleAnalogDirection(int analogValue, int lowKeyCode, int highKeyCode) {
+        if (analogValue >= 0 && analogValue <= 50) {
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, lowKeyCode));
+        } else {
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, lowKeyCode));
+        }
+
+        if (analogValue >= 200 && analogValue <= 255) {
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, highKeyCode));
+        } else {
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, highKeyCode));
+        }
+    }
     private void loadCustomMapping() {
         // Read cm.scf and assign values like KeyEvent.KEYCODE_DPAD_UP etc.
     }

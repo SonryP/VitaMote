@@ -14,5 +14,6 @@
     <string name="q">Q</string>
     <string name="w">W</string>
     <string name="rem_ime">VitaIME</string>
+    <string name="connect">Connect PS Vita</string>
     <string name="subtype_en_US">VitaMote Controller</string>
 </resources>
