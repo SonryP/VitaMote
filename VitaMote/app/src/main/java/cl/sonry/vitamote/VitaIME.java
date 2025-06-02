@@ -25,6 +25,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import cl.sonry.vitamote.enums.TypeA;
 import cl.sonry.vitamote.enums.TypeB;
@@ -107,11 +108,19 @@ public class VitaIME  extends InputMethodService {
 
                 b1 = in.read();  // Dpad
                 b2 = in.read();  // Buttons
+                b3 = in.read();  // Not Used
+                b4 = in.read();  // Not Used
+                b5 = in.read();  // L Analog X
+                b6 = in.read();  // L Analog Y
+                b7 = in.read();  // R Analog X
+                b8 = in.read();  // R Analog Y
+
                 // TODO: Do a better and cleaner job here
                 byte [] inStream = new byte [clientSocket.getReceiveBufferSize()];
                 in.read(inStream, 0, (int)clientSocket.getReceiveBufferSize());
-                sendTypeA(b1);
-                sendTypeB(b2);
+
+                sendType(b1,TypeA::fromCombinedValue, typeAButtons, lastKeyA);
+                sendType(b2, TypeB::fromCombinedValue, typeBButtons, lastKeyB);
             }
 
         } catch (Exception ex) {
@@ -126,47 +135,30 @@ public class VitaIME  extends InputMethodService {
 
     ArrayList<Integer> lastKeyA =new ArrayList<>();
     ArrayList<Integer> lastKeyB =new ArrayList<>();
-    private void sendTypeA(int a){
+    private <T extends Enum<T>> void sendType(
+            int a,
+            Function<Integer, EnumSet<T>> fromCombinedValue,
+            Map<T, Integer> buttonMap,
+            List<Integer> lastKeyList
+    ) {
         ic = getCurrentInputConnection();
-        if(a!=0){
-            EnumSet<TypeA> buttons = TypeA.fromCombinedValue(a);
-            for (TypeA button : buttons) {
-                if(typeAButtons.containsKey(button)){
-                    var keyCode = typeAButtons.getOrDefault(button,0);
+
+        if (a != 0) {
+            EnumSet<T> buttons = fromCombinedValue.apply(a);
+            for (T button : buttons) {
+                if (buttonMap.containsKey(button)) {
+                    int keyCode = buttonMap.getOrDefault(button, 0);
                     KeyEvent ks = new KeyEvent(0, keyCode);
                     ic.sendKeyEvent(ks);
-                    lastKeyA.add(keyCode);
+                    lastKeyList.add(keyCode);
                 }
             }
-        }else if(!lastKeyA.isEmpty()){
-            for(Integer keyCode: lastKeyA){
+        } else if (!lastKeyList.isEmpty()) {
+            for (Integer keyCode : lastKeyList) {
                 KeyEvent ks = new KeyEvent(1, keyCode);
                 ic.sendKeyEvent(ks);
-
             }
-            lastKeyA = new ArrayList<>();
-        }
-    }
-
-    private void sendTypeB(int a){
-        ic = getCurrentInputConnection();
-        if(a!=0){
-            EnumSet<TypeB> buttons = TypeB.fromCombinedValue(a);
-            for (TypeB button : buttons) {
-                if(typeBButtons.containsKey(button)){
-                    var keyCode = typeBButtons.getOrDefault(button,0);
-                    KeyEvent ks = new KeyEvent(0, keyCode);
-                    ic.sendKeyEvent(ks);
-                    lastKeyB.add(keyCode);
-                }
-            }
-        }else if(!lastKeyB.isEmpty()){
-            for(Integer keyCode: lastKeyB){
-                KeyEvent ks = new KeyEvent(1, keyCode);
-                ic.sendKeyEvent(ks);
-
-            }
-            lastKeyB = new ArrayList<>();
+            lastKeyList.clear();
         }
     }
 
