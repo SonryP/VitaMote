@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button sveBtn = findViewById(R.id.save_button);
+        Button btnEnime = findViewById(R.id.btnEnime);
         Button btnIme = findViewById(R.id.btnIME);
         Button btnMap = findViewById(R.id.btnMap);
         EditText ipInput = findViewById(R.id.ip_input);
@@ -37,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 saveFile(ipInput.getText().toString(), MainActivity.this);
                 ipText.setText(readFile(MainActivity.this));
+            }
+        });
+
+        btnEnime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableIme(MainActivity.this);
             }
         });
 

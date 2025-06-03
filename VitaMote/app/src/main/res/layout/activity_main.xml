@@ -76,15 +76,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ip_text" />
+
         <Button
-            android:text="@string/change_ime_button"
+            android:id="@+id/btnEnime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnIME" />
+            android:text="@string/enable_ime_button" />
+
+        <Button
+            android:id="@+id/btnIME"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_ime_button" />
+
         <Button
             android:text="@string/custom_mapping_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnMap" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
