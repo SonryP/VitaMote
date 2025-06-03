@@ -82,7 +82,7 @@ public class VitaIME  extends InputMethodService {
              InputStream in = clientSocket.getInputStream()) {
 
             while (timer) {
-                Thread.sleep(100);
+                Thread.sleep(80);
                 out.write("request".getBytes());
                 out.flush();
 

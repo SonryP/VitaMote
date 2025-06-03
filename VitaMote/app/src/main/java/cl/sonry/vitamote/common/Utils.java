@@ -3,6 +3,8 @@ package cl.sonry.vitamote.common;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 import android.content.Context;
+import android.content.Intent;
+import android.provider.Settings;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -63,5 +65,12 @@ public class Utils  {
         if (imeManager != null) {
             imeManager.showInputMethodPicker();
         }
+    }
+
+    public static void enableIme(Context context){
+        Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+
     }
 }
