@@ -1,8 +1,9 @@
 package cl.sonry.vitamote;
 
+import static cl.sonry.vitamote.common.Utils.*;
+
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,11 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity {
     TextView ipText;
@@ -33,23 +30,20 @@ public class MainActivity extends AppCompatActivity {
         Button btnMap = findViewById(R.id.btnMap);
         EditText ipInput = findViewById(R.id.ip_input);
         ipText = findViewById(R.id.ip_text);
-        ipText.setText(readFile());
+        ipText.setText(readFile(MainActivity.this));
 
         sveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveFile(ipInput.getText().toString());
-                ipText.setText(readFile());
+                saveFile(ipInput.getText().toString(), MainActivity.this);
+                ipText.setText(readFile(MainActivity.this));
             }
         });
 
         btnIme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if (imeManager != null) {
-                    imeManager.showInputMethodPicker();
-                }
+                changeIme(MainActivity.this);
             }
         });
 
@@ -69,48 +63,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void saveFile(String texto) {
-        File dir = getExternalFilesDir("SonryVitaMote");
-        dir.mkdirs();
 
-        File file = new File(dir, "ip.scf");
 
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
 
-            FileWriter writer = new FileWriter(file);
-            writer.write(texto);
-            writer.flush();
-            writer.close();
-
-            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error saving file", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private String readFile() {
-        String ip = "0";
-        File dir = getExternalFilesDir("SonryVitaMote");
-        File file = new File(dir, "ip.scf");
-
-        if (!file.exists()) {
-            Toast.makeText(this, "Remember to store an IP", Toast.LENGTH_LONG).show();
-            return "No IP Saved";
-        } else {
-            try {
-                FileReader fread = new FileReader(file);
-                BufferedReader br = new BufferedReader(fread);
-                ip = br.readLine();
-                fread.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "Error reading IP";
-            }
-            return ip;
-        }
-    }
 }
