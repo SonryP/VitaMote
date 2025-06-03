@@ -1,25 +1,19 @@
 package cl.sonry.vitamote;
 
+import static cl.sonry.vitamote.common.Utils.changeIme;
+import static cl.sonry.vitamote.common.Utils.readFile;
+
 import android.inputmethodservice.InputMethodService;
-import android.inputmethodservice.Keyboard;
-import android.inputmethodservice.KeyboardView;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -32,7 +26,6 @@ import cl.sonry.vitamote.enums.TypeA;
 import cl.sonry.vitamote.enums.TypeB;
 
 public class VitaIME  extends InputMethodService {
-    private boolean caps = false;
     private InputConnection ic;
     private Socket clientSocket;
     private boolean timer = false;
@@ -63,33 +56,24 @@ public class VitaIME  extends InputMethodService {
         Button keyIme = view.findViewById(R.id.key_ime);
         Button keyConnect = view.findViewById(R.id.key_psvita);
 
-        keyIme.setOnClickListener(v -> changeIme());
+        keyIme.setOnClickListener(v -> changeIme(this));
         keyConnect.setOnClickListener(v -> connectToVita());
 
         return view;
     }
 
-    private void changeIme(){
-        //TODO: Put in a common class
-        InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        if (imeManager != null) {
-            imeManager.showInputMethodPicker();
-        }
-    }
 
     private void connectToVita() {
-        File dir = getExternalFilesDir("SonryVitaMote");
-        File ipFile = new File(dir, "ip.scf");
-        try (BufferedReader br = new BufferedReader(new FileReader(ipFile))) {
-            String ip = br.readLine();
-            clientSocket = new Socket(ip, 5000);
-            Toast.makeText(this, "PS VITA Connected", Toast.LENGTH_LONG).show();
-            timer = true;
-            new Thread(this::runUpdateLoop).start();
-        } catch (Exception ex) {
-            Toast.makeText(this, "Connection failed", Toast.LENGTH_LONG).show();
+         String ip = readFile(this);
+         try{
+             clientSocket = new Socket(ip, 5000);
+             Toast.makeText(this, "PS VITA Connected", Toast.LENGTH_LONG).show();
+             timer = true;
+             new Thread(this::runUpdateLoop).start();
+         }catch (Exception ex){
+             Toast.makeText(this, "Connection failed", Toast.LENGTH_LONG).show();
             Log.e("VitaIME", "Connection error", ex);
-        }
+         }
     }
 
     private void runUpdateLoop() {
