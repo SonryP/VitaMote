@@ -1,6 +1,7 @@
 package cl.sonry.vitamote;
 
 import static cl.sonry.vitamote.common.Utils.changeIme;
+import static cl.sonry.vitamote.common.Utils.defaultKeyCodes;
 import static cl.sonry.vitamote.common.Utils.readFile;
 
 import android.inputmethodservice.InputMethodService;
@@ -168,18 +169,13 @@ public class VitaIME  extends InputMethodService {
     }
 
     private void initializeButtons(){
-        typeAButtons.put(TypeA.UP, KeyEvent.KEYCODE_DPAD_UP);
-        typeAButtons.put(TypeA.RIGHT, KeyEvent.KEYCODE_DPAD_RIGHT);
-        typeAButtons.put(TypeA.DOWN, KeyEvent.KEYCODE_DPAD_DOWN);
-        typeAButtons.put(TypeA.LEFT, KeyEvent.KEYCODE_DPAD_LEFT);
-        typeAButtons.put(TypeA.SELECT, KeyEvent.KEYCODE_DPAD_CENTER);
-        typeAButtons.put(TypeA.START, KeyEvent.KEYCODE_BACK);
-        typeBButtons.put(TypeB.LT,KeyEvent.KEYCODE_BUTTON_L2);
-        typeBButtons.put(TypeB.RT,KeyEvent.KEYCODE_BUTTON_R2);
-        typeBButtons.put(TypeB.T,KeyEvent.KEYCODE_BUTTON_Y);
-        typeBButtons.put(TypeB.C,KeyEvent.KEYCODE_BUTTON_B);
-        typeBButtons.put(TypeB.S,KeyEvent.KEYCODE_BUTTON_X);
-        typeBButtons.put(TypeB.X,KeyEvent.KEYCODE_BUTTON_A);
+        int i = 0;
+        for (TypeA key : TypeA.values()) {
+            typeAButtons.put(key, defaultKeyCodes.get(i++));
+        }
+        for (TypeB key : TypeB.values()) {
+            typeBButtons.put(key, defaultKeyCodes.get(i++));
+        }
     }
 
 }

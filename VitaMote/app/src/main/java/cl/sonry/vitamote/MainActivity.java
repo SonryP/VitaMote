@@ -2,12 +2,11 @@ package cl.sonry.vitamote;
 
 import static cl.sonry.vitamote.common.Utils.*;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,33 +32,18 @@ public class MainActivity extends AppCompatActivity {
         ipText = findViewById(R.id.ip_text);
         ipText.setText(readFile(MainActivity.this));
 
-        sveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveFile(ipInput.getText().toString(), MainActivity.this);
-                ipText.setText(readFile(MainActivity.this));
-            }
+        sveBtn.setOnClickListener(v->{
+            saveFile(ipInput.getText().toString(), MainActivity.this);
+            ipText.setText(readFile(MainActivity.this));
         });
 
-        btnEnime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enableIme(MainActivity.this);
-            }
-        });
+        btnEnime.setOnClickListener(v->enableIme(MainActivity.this));
 
-        btnIme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeIme(MainActivity.this);
-            }
-        });
+        btnIme.setOnClickListener(v->changeIme(MainActivity.this));
 
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this,  "Not implemented on this version", Toast.LENGTH_LONG).show();
-            }
+        btnMap.setOnClickListener(v ->  {
+            Intent intent = new Intent(v.getContext(), CusMap.class);
+            v.getContext().startActivity(intent);
         });
 
 

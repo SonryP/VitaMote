@@ -5,6 +5,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -13,6 +14,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Utils  {
 
     public static void saveFile(String text, Context context) {
@@ -73,4 +80,28 @@ public class Utils  {
         context.startActivity(intent);
 
     }
+
+    public static List<Integer> defaultKeyCodes = Arrays.asList(
+            KeyEvent.KEYCODE_DPAD_CENTER,
+            KeyEvent.KEYCODE_BACK,
+            KeyEvent.KEYCODE_DPAD_UP,
+            KeyEvent.KEYCODE_DPAD_RIGHT,
+            KeyEvent.KEYCODE_DPAD_DOWN,
+            KeyEvent.KEYCODE_DPAD_LEFT,
+            KeyEvent.KEYCODE_BUTTON_L2,
+            KeyEvent.KEYCODE_BUTTON_R2,
+            KeyEvent.KEYCODE_BUTTON_Y,
+            KeyEvent.KEYCODE_BUTTON_B,
+            KeyEvent.KEYCODE_BUTTON_X,
+            KeyEvent.KEYCODE_BUTTON_A,
+            KeyEvent.KEYCODE_W,
+            KeyEvent.KEYCODE_D,
+            KeyEvent.KEYCODE_A,
+            KeyEvent.KEYCODE_S,
+            KeyEvent.KEYCODE_I,
+            KeyEvent.KEYCODE_L,
+            KeyEvent.KEYCODE_K,
+            KeyEvent.KEYCODE_J
+    );
+
 }

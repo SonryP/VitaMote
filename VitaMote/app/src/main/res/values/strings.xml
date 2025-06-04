@@ -17,4 +17,6 @@
     <string name="rem_ime">VitaIME</string>
     <string name="connect">Connect PS Vita</string>
     <string name="subtype_en_US">VitaMote Controller</string>
+    <string name="save">Save</string>
+    <string name="load_defaults">Load Defaults</string>
 </resources>
