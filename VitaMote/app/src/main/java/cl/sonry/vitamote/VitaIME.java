@@ -4,7 +4,6 @@ import static cl.sonry.vitamote.common.Utils.changeIme;
 import static cl.sonry.vitamote.common.Utils.defaultKeyCodes;
 import static cl.sonry.vitamote.common.Utils.loadCM;
 import static cl.sonry.vitamote.common.Utils.readFile;
-
 import android.inputmethodservice.InputMethodService;
 import android.os.StrictMode;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
 import android.widget.Toast;
-
 import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.net.Socket;

@@ -1,7 +1,6 @@
 package cl.sonry.vitamote.common;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -9,14 +8,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
