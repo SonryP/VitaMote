@@ -1,6 +1,8 @@
 <snippet>
-  <content>
-#VitaMote
+  <content> 
+
+# VitaMote
+    
 Use your PS Vita as an Android Controller using VitaPad.
 ## Installation
 <br>1- Install Rinnegatamante VitaPad on your PSVita
@@ -38,6 +40,8 @@ TODO:
 <br>-Sonry: Android App
 ## License
 TODO: Write license
+
+
 </content>
   <tabTrigger>readme</tabTrigger>
 </snippet>
