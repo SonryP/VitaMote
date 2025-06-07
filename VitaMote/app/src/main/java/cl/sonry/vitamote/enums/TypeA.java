@@ -1,10 +1,5 @@
 package cl.sonry.vitamote.enums;
-
-import android.animation.TypeEvaluator;
-
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 public enum TypeA {
     SELECT(1),
@@ -24,6 +19,7 @@ public enum TypeA {
     }
 
     public static EnumSet<TypeA> fromCombinedValue(int combinedValue) {
+        //TODO: Move to a common enum
         EnumSet<TypeA> result = EnumSet.noneOf(TypeA.class);
         for (TypeA type : TypeA.values()) {
             if ((type.getValue() & combinedValue) != 0) {

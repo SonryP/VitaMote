@@ -1,5 +1,4 @@
 package cl.sonry.vitamote.enums;
-
 import java.util.EnumSet;
 
 public enum TypeB {
@@ -21,6 +20,7 @@ public enum TypeB {
     }
 
     public static EnumSet<TypeB> fromCombinedValue(int combinedValue) {
+        //TODO: Move to a common enum
         EnumSet<TypeB> result = EnumSet.noneOf(TypeB.class);
         for (TypeB type : TypeB.values()) {
             if ((type.getValue() & combinedValue) != 0) {
