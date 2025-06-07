@@ -2,6 +2,7 @@ package cl.sonry.vitamote;
 
 import static cl.sonry.vitamote.common.Utils.changeIme;
 import static cl.sonry.vitamote.common.Utils.defaultKeyCodes;
+import static cl.sonry.vitamote.common.Utils.loadCM;
 import static cl.sonry.vitamote.common.Utils.readFile;
 
 import android.inputmethodservice.InputMethodService;
@@ -30,12 +31,10 @@ public class VitaIME  extends InputMethodService {
     private InputConnection ic;
     private Socket clientSocket;
     private boolean timer = false;
-
-    int b1, b2, b3, b4, b5, b6, b7, b8,b9;
-
+    int b1, b2, b3, b4, b5, b6, b7, b8;
     HashMap<TypeA, Integer> typeAButtons = new HashMap<>();
     HashMap<TypeB, Integer> typeBButtons = new HashMap<>();
-
+    List<Integer> analogButtons = new ArrayList<>();
 
     @Override
     public void onCreate() {
@@ -47,7 +46,6 @@ public class VitaIME  extends InputMethodService {
         loadCustomMapping();
         connectToVita();
     }
-
     @Override
     public View onCreateInputView() {
         View view = getLayoutInflater().inflate(R.layout.custom_keyboard, null);
@@ -62,8 +60,6 @@ public class VitaIME  extends InputMethodService {
 
         return view;
     }
-
-
     private void connectToVita() {
          String ip = readFile(this);
          try{
@@ -76,7 +72,6 @@ public class VitaIME  extends InputMethodService {
             Log.e("VitaIME", "Connection error", ex);
          }
     }
-
     private void runUpdateLoop() {
 
         try (BufferedOutputStream out = new BufferedOutputStream(clientSocket.getOutputStream());
@@ -88,7 +83,7 @@ public class VitaIME  extends InputMethodService {
                 out.flush();
 
                 b1 = in.read();  // Dpad
-                b2 = in.read();  // Buttons
+                b2 = in.read();  // Buttons T S C X
                 b3 = in.read();  // Not Used
                 b4 = in.read();  // Not Used
                 b5 = in.read();  // L Analog X
@@ -96,7 +91,6 @@ public class VitaIME  extends InputMethodService {
                 b7 = in.read();  // R Analog X
                 b8 = in.read();  // R Analog Y
 
-                // TODO: Do a better and cleaner job here
                 byte [] inStream = new byte [clientSocket.getReceiveBufferSize()];
                 in.read(inStream, 0, (int)clientSocket.getReceiveBufferSize());
 
@@ -114,7 +108,6 @@ public class VitaIME  extends InputMethodService {
     private void runOnUiThread(Runnable runnable) {
         new android.os.Handler(getMainLooper()).post(runnable);
     }
-
     ArrayList<Integer> lastKeyA =new ArrayList<>();
     ArrayList<Integer> lastKeyB =new ArrayList<>();
     private <T extends Enum<T>> void sendType(
@@ -143,21 +136,18 @@ public class VitaIME  extends InputMethodService {
             lastKeyList.clear();
         }
     }
-
     private void sendAnalog(int lAnalogX, int lAnalogY, int rAnalogX, int rAnalogY) {
-        handleAnalogDirection(lAnalogX, KeyEvent.KEYCODE_A, KeyEvent.KEYCODE_D);
-        handleAnalogDirection(lAnalogY, KeyEvent.KEYCODE_W, KeyEvent.KEYCODE_S);
-        handleAnalogDirection(rAnalogX, KeyEvent.KEYCODE_J, KeyEvent.KEYCODE_L);
-        handleAnalogDirection(rAnalogY, KeyEvent.KEYCODE_I, KeyEvent.KEYCODE_K);
+        handleAnalogDirection(lAnalogY, analogButtons.get(0), analogButtons.get(2));
+        handleAnalogDirection(lAnalogX, analogButtons.get(3), analogButtons.get(1));
+        handleAnalogDirection(rAnalogY, analogButtons.get(4), analogButtons.get(6));
+        handleAnalogDirection(rAnalogX, analogButtons.get(7), analogButtons.get(5));
     }
-
     private void handleAnalogDirection(int analogValue, int lowKeyCode, int highKeyCode) {
         if (analogValue >= 0 && analogValue <= 50) {
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, lowKeyCode));
         } else {
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, lowKeyCode));
         }
-
         if (analogValue >= 200 && analogValue <= 255) {
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, highKeyCode));
         } else {
@@ -165,17 +155,20 @@ public class VitaIME  extends InputMethodService {
         }
     }
     private void loadCustomMapping() {
-        // Read cm.scf and assign values like KeyEvent.KEYCODE_DPAD_UP etc.
+        List<Integer> keys = loadCM(this);
+        if(keys != null) initializeButtons(keys);
     }
-
-    private void initializeButtons(){
+    private void initializeButtons() {
+        initializeButtons(defaultKeyCodes);
+    }
+    private void initializeButtons(List<Integer> keys){
         int i = 0;
         for (TypeA key : TypeA.values()) {
-            typeAButtons.put(key, defaultKeyCodes.get(i++));
+            typeAButtons.put(key, keys.get(i++));
         }
         for (TypeB key : TypeB.values()) {
-            typeBButtons.put(key, defaultKeyCodes.get(i++));
+            typeBButtons.put(key, keys.get(i++));
         }
+        analogButtons.addAll(keys.subList(i, keys.size()));
     }
-
 }

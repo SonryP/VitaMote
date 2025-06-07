@@ -5,6 +5,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -66,21 +67,18 @@ public class Utils  {
             return ip;
         }
     }
-
     public static void changeIme(Context context){
         InputMethodManager imeManager = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
         if (imeManager != null) {
             imeManager.showInputMethodPicker();
         }
     }
-
     public static void enableIme(Context context){
         Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
     }
-
     public static List<Integer> defaultKeyCodes = Arrays.asList(
             KeyEvent.KEYCODE_DPAD_CENTER,
             KeyEvent.KEYCODE_BACK,
@@ -96,12 +94,35 @@ public class Utils  {
             KeyEvent.KEYCODE_BUTTON_A,
             KeyEvent.KEYCODE_W,
             KeyEvent.KEYCODE_D,
-            KeyEvent.KEYCODE_A,
             KeyEvent.KEYCODE_S,
+            KeyEvent.KEYCODE_A,
             KeyEvent.KEYCODE_I,
             KeyEvent.KEYCODE_L,
             KeyEvent.KEYCODE_K,
             KeyEvent.KEYCODE_J
     );
-
+    public static List<Integer> loadCM(Context context) {
+        try {
+            File dir = context.getExternalFilesDir("SonryVitaMote");
+            File file = new File(dir, "cm.scf");
+            Integer[] keys = new Integer[20];
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                int l = 0;
+                while ((line = br.readLine()) != null && l < 20) {
+                    try {
+                        int keyCode = Integer.parseInt(line.trim());
+                        keys[l] = keyCode;
+                    } catch (NumberFormatException e) {
+                        Log.e("loadCM", "Invalid number format on line " + l, e);
+                    }
+                    l++;
+                }
+            }
+            return new ArrayList<>(Arrays.asList(keys));
+        } catch (IOException ex) {
+            Log.e("loadCM", "Error reading custom mapping file", ex);
+            return null;
+        }
+    }
 }
