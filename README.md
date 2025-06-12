@@ -19,10 +19,11 @@ Use your PS Vita as an Android Controller using VitaPad.
 *You must be on the same wifi network to make this works
 
 TODO: 
-<br>-Bring back custom mapping function.
 <br>-Redesign app to modern standards.
+<br>-Improve security and optimizations.
 
 ## History
+<h5>Old Android Era</h5>
 <br>Alpha Released...
 <br>Keyboard Fixed (S key doesn't work)
 <br>Beta Released....
@@ -30,9 +31,14 @@ TODO:
 <br>Analogs!
 <br>"Change IME" button to easy configuration.
 <br>Custom Mappings are Here!
+
+<h5>New Android Era</h5>
 <br>New project! (Compatible with modern android versions).
 <br>Custom mappings are gone :(
 <br>New project release!
+<br>New IME activation button
+<br>Custom mappings are back!
+
 
 ## Credits
 <br>-Thanks to Rinnegatamante for Creating VitaPad
